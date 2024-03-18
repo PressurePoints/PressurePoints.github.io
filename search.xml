@@ -1,29 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hello World</title>
-    <url>/2013/06/04/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+    <title>博客的创建过程</title>
+    <url>/2024/03/07/blog-create/</url>
+    <content><![CDATA[<p>这是一篇如何使用 Hexo 和 NexT 主题创建博客的文章，主线过程参考<a href="https://fanyfull.github.io/2021/10/16/Github-Hexo-%E7%9C%9F-%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA-GitHub-%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/#%E4%BD%BF%E7%94%A8-hexo-%E5%8D%9A%E5%AE%A2%E6%A1%86%E6%9E%B6">这里</a>。<br>而本文主要是记录一些细节和遇到的问题，可以结合上面的文章一起看。</p>
 <span id="more"></span>
 
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="前言与准备工作"><a href="#前言与准备工作" class="headerlink" title="前言与准备工作"></a>前言与准备工作</h2><h3 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h3><p>GitHub 是有名的代码托管网站，而它提供了一项服务 GitHub Pages，这个 GitHub Pages 可以将我们托管在 GitHub 上的一个仓库中的 html、css 和 js 代码渲染成静态页面。当然，这个仓库是特殊的，所以每一个 GitHub 账户只能够育一个这样的仓库。将相应的博客内容上传到 GitHub 上之后，我们就可以通过 <code>https://username.github.io</code> 来访问自己的博客，这里的 username 要换成自己的用户名。比如，我的用户名是 PressurePoints，那么就可以通过 <a href="https://pressurepoints.github.io/">https://pressurepoints.github.io</a> 来访问我的博客。</p>
+<p>Hexo 是使用 nodejs 开发的一个快速、简洁、高效的静态博客生成器。Hexo 使用 Markdown 语法解析文章，然后渲染成相应的网页，然后我们将渲染好的网页代码上传到 GitHub 上就可以了。简单来讲，利用 Hexo，我们只需要使用 Markdown 语法写文章，剩下的事情全部交给 Hexo 去做，我们就可以看到想要的博客效果了。</p>
+<h3 id="Github-账号注册"><a href="#Github-账号注册" class="headerlink" title="Github 账号注册"></a>Github 账号注册</h3><p>此处略。建议是用英文用户名，并且需要有邮箱绑定。</p>
+<h3 id="安装-Node-js"><a href="#安装-Node-js" class="headerlink" title="安装 Node.js"></a>安装 Node.js</h3><p>在<a href="https://nodejs.org/en/">Node.js官网</a>下载对应版本。选择全部组件，包括勾选 <code>Add to Path</code>。安装完成后，可以在命令行中输入以下代码来检查是否安装成功。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node -v <span class="comment"># 会显示相应版本号，说明安装成功</span></span><br><span class="line">npm -v <span class="comment"># 会显示相应版本号，说明安装成功</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Node.js 总共就几十M ，装在C盘也不怎么有影响（个人装在C盘）<br>LTS 版本指长期支持（Long Term Support）版本，是稳定版本，推荐使用。</p>
+</blockquote>
+<h3 id="安装-Git-for-Windows"><a href="#安装-Git-for-Windows" class="headerlink" title="安装 Git for Windows"></a>安装 Git for Windows</h3><p>在<a href="https://git-scm.com/">Git官网</a>下载对应版本。安装完成后，可以在命令行中输入以下代码来检查是否安装成功。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git -v <span class="comment"># 会显示相应版本号，说明安装成功</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Git中复制粘贴不是Crtl+C,Ctrl+V，可以用鼠标右键复制粘贴或者用对应快捷键（鼠标右键之后能看到）</p>
+</blockquote>
+<h3 id="为-Git-配置用户名和邮箱"><a href="#为-Git-配置用户名和邮箱" class="headerlink" title="为 Git 配置用户名和邮箱"></a>为 Git 配置用户名和邮箱</h3><p>鼠标右键唤出菜单，选择 <code>Git Bash Here</code>。<br>因为Git是分布式版本控制系统，所以需要填写用户名和邮箱作为一个标识。在命令行输入如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;user_name&quot;</span> <span class="comment"># user_name填入GitHub用户名</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git config --global user.email <span class="string">&quot;user_email&quot;</span> <span class="comment"># user_email填入GitHub注册的邮箱</span></span><br></pre></td></tr></table></figure>
+<p>查看已设置的用户名和邮箱，在命令行输入如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config user.name</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config user.email</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Git命令行使用代理笔者没有搞，用的是校园网貌似整个过程没什么网络问题</p>
+</blockquote>
+<h3 id="安装-VSCode"><a href="#安装-VSCode" class="headerlink" title="安装 VSCode"></a>安装 VSCode</h3><p>此处仅贴一个 VSCode 官方地址，<a href="https://code.visualstudio.com/">VSCode官网</a>。</p>
+<h2 id="搭建-GitHub-博客"><a href="#搭建-GitHub-博客" class="headerlink" title="搭建 GitHub 博客"></a>搭建 GitHub 博客</h2><h3 id="新建仓库"><a href="#新建仓库" class="headerlink" title="新建仓库"></a>新建仓库</h3><p>在 GitHub 上新建一个仓库，仓库名为 <code>username.github.io</code>，其中 <code>username</code> 是你的 GitHub 用户名。<br>注意仓库需要设置成 Public，新建完成后什么也不用操作继续下一步即可。</p>
+<h3 id="创建-SSH-Key"><a href="#创建-SSH-Key" class="headerlink" title="创建 SSH Key"></a>创建 SSH Key</h3><p>ssh 密钥一般保存在用户目录下的 <code>.ssh</code> 文件夹中。密钥成对出现，其中 keyname 是私钥，keyname.pub 是公钥。<br>config 文件是配置文件，可以配置多个密钥对应多个账号（可以用 VSCode 的插件 <code>Remote - SSH</code> 来管理）。这里我们需要创建一个用来与 GitHub 通信的密钥对。</p>
+<blockquote>
+<p>你可以输入 <code>ls -al ~/.ssh</code> 命令来查看 <code>.ssh</code> 文件夹下密钥对文件情况（或者切到 <code>.ssh</code> 文件后用 <code>ls</code> 命令也行）</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;user.email&quot;</span> <span class="comment"># user.email 为GitHub 上注册的邮箱</span></span><br></pre></td></tr></table></figure>
+<p>此命令为生成密钥对的命令。</p>
+<p>此命令之后如果是三个回车，会在 <code>.ssh</code> 文件下设置一对默认名称（即id_rsa）的 key，且没有密码。这里不建议用默认名称，为将来多个 SSH Key 管理做准备。</p>
+<p>第一个回车用自定义名称（如 github_rsa）代替，会在 Git Bash 的工作目录生成一对此名称的 Key，所以要切换工作目录放在 <code>.ssh</code> 文件下（<code>cd</code>命令）</p>
+<p>在使用自定义名称时，还需要如下操作：<a href="https://zhuanlan.zhihu.com/p/628727065?utm_id=0">参考链接</a></p>
+<ol>
+<li><p><strong>添加密钥到 ssh-agent</strong><br>  首先，在命令行中输出以下命令来启动 ssh-agent：</p>
+  <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">eval</span> <span class="string">&quot;<span class="subst">$(ssh-agent -s)</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<p>  输出的结果应该是 <code>Agent pid 59566（这个数字会变化）</code>，表示 ssh-agent 已经启动。<br>  然后，把之前生成的 SSH 密钥添加到 ssh-agent 中：</p>
+  <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-add ~/.ssh/YourSSHKeyName <span class="comment"># YourSSHKeyName 为你的私钥名称</span></span><br></pre></td></tr></table></figure>
+<p>  输出的结果应该是 <code>输出：Identity added: github_auth (xxxx)</code></p>
+</li>
+<li><p><strong>配置 config 文件</strong><br>  在 <code>.ssh</code> 目录下新建 config 文件（无后缀），用记事本打开，添加如下内容：</p>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Host github.com #别名</span><br><span class="line">    HostName github.com </span><br><span class="line">    User git #正常要ssh user@HostName指令来连接</span><br><span class="line">    PreferredAuthentications publickey</span><br><span class="line">    IdentityFile &quot;YourFilePathToKey&quot; #指定用哪对密钥，改为你的私钥路径</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>VSCode 用 Remote - SSH 插件 ssh 连接之后会自动创建这样一个 config 文件，用来管理各个 ssh 密钥</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="添加公钥到-GitHub"><a href="#添加公钥到-GitHub" class="headerlink" title="添加公钥到 GitHub"></a>添加公钥到 GitHub</h3><p>打开<a href="https://github.com/settings/ssh/new">https://github.com/settings/ssh/new</a>，新建一个 SSH Key。</p>
+<p>Title 为标题，可以随便填，用来区分不同的 Key。Key 为公钥的内容，将 <code>keyname.pub</code> 文件的内容复制到这里即可。</p>
+<p>最后点击 Add SSH key。在 Git Bash 中检测 GitHub 公钥设置是否成功，输入如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果是自定义名称的 Key，也可以试试用 <code>ssh -T -i YourKeyName git@github.com</code> 连接，其中 YourKeyName 为你的私钥名称</p>
+</blockquote>
+<p>当出现这种输出时：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">The authenticity of host <span class="string">&#x27;github.com (2404:6800:4000::c01e:ff70)&#x27;</span> can<span class="string">&#x27;t be established.</span></span><br><span class="line"><span class="string">ED25519 key fingerprint is SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU.</span></span><br><span class="line"><span class="string">This key is not known by any other names</span></span><br><span class="line"><span class="string">Are you sure you want to continue connecting (yes/no/[fingerprint])?</span></span><br></pre></td></tr></table></figure>
+<p>检查 Fingerprint 是否和 GitHub 上添加 SSH Key 之后显示的一致，一致的话直接回车，最后输出结果应该是：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Hi username! You<span class="string">&#x27;ve successfully authenticated, but GitHub does not provide shell access.</span></span><br></pre></td></tr></table></figure>
+<p>笔者之前没有做 ssh add 这步导致不管用什么密钥对，显示的 Fingerprint 都是一个固定的值，于是连接不上。</p>
+<h2 id="使用-Hexo-博客框架"><a href="#使用-Hexo-博客框架" class="headerlink" title="使用 Hexo 博客框架"></a>使用 Hexo 博客框架</h2><h3 id="Hexo-简介与原理"><a href="#Hexo-简介与原理" class="headerlink" title="Hexo 简介与原理"></a>Hexo 简介与原理</h3><p>Hexo 是一个快速、简洁且高效的博客框架，它使用 Markdown 语法解析文章，然后渲染成相应的网页。由于 Github Pages 存放的都是静态文件，博客存放的不只是文章内容，还有文章列表、分类、标签、翻页等动态内容，假如每次写完一篇文章都要手动更新博文目录和相关链接信息，相信谁都会疯掉，所以 Hexo 所做的就是将这些 md 文件都放在本地，每次写完文章后调用写好的命令来批量完成相关页面的生成，然后再将有改动的页面提交到 GitHub 。</p>
+<h3 id="安装与初始化"><a href="#安装与初始化" class="headerlink" title="安装与初始化"></a>安装与初始化</h3><p>在 Git Bash 命令行中输入如下命令来安装 Hexo：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+<p>安装完成后，在电脑的某个地方新建一个文件夹（名字可以随便取）专门用于存放博客代码，比如我的是 D:\VSCode\Blogs，由于这个文件夹将来存放博客的所有内容和素材，以及所有的博客操作都会在其中完成，所以最好不要随便放。</p>
+<p>进入新建的博客目录，此处可以用 VSCode 了。（之后指令都可以用 VSCode 终端打开博客目录执行）</p>
+<p>在新建的博客目录中，输入如下命令来初始化 Hexo：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<h3 id="生成静态文件"><a href="#生成静态文件" class="headerlink" title="生成静态文件"></a>生成静态文件</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo generate <span class="comment"># 或者 hexo g</span></span><br></pre></td></tr></table></figure>
+<p>执行以上命令后，Hexo 就会在 public 文件夹中生成相关的 html 文件，这些文件将来都是要提交到 GitHub 上的 username.github.io 的仓库中去的。</p>
+<h3 id="本地预览"><a href="#本地预览" class="headerlink" title="本地预览"></a>本地预览</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo server <span class="comment"># 或者 hexo s</span></span><br></pre></td></tr></table></figure>
+<p>hexo s 是开启本地预览服务，打开浏览器访问 <a href="http://localhost:4000/">http://localhost:4000</a> 即可看到内容，Ctrl+C 停止本地预览。本地预览可以实时查看博客的编辑情况，待博客写完后一起部署到 GitHub 上。</p>
+<p>第一次初始化的时候 hexo 已经帮我们写了一篇名为 Hello World 的文章，默认的主题比较丑。</p>
+<h3 id="上传到-GitHub"><a href="#上传到-GitHub" class="headerlink" title="上传到 GitHub"></a>上传到 GitHub</h3><h4 id="配置站点配置文件"><a href="#配置站点配置文件" class="headerlink" title="配置站点配置文件"></a>配置站点配置文件</h4><p>hexo 有 2 种 _config.yml 文件，一个是根目录下的全局的 _config.yml，一个是各个主体 theme 下的 _config.yml。将前者称为站点配置文件， 后者称为主题配置文件。</p>
+<p>打开根目录下站点配置文件 _config.yml，配置如下部分：</p>
+<ol>
+<li>deploy 部分  <figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/one-command-deployment</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span>  <span class="comment">#不能改</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="comment"># 在 GitHub 创建仓库后的页面中找到 SSH 之后的链接填入（如git@github.com:PressurePoints/PressurePoints.github.io.git）</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span> <span class="string">（一定要是</span> <span class="string">master，不能是</span> <span class="string">main）</span></span><br></pre></td></tr></table></figure>
+  关于 branch 的选择原因：<a href="https://github.com/hexojs/hexo/issues/350">参考链接</a><br>  <code>yourname.github.io</code> 形式的库，会解析 master 分支；而别的名字的库，会解析 gh-pages 分支，以 <code>yourname.github.io/库名</code> 的形式访问。</li>
+<li>URL 部分  <figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># URL</span></span><br><span class="line"><span class="comment">## Set your site url here. For example, if you use GitHub Page, set url as &#x27;https://username.github.io/project&#x27;</span></span><br><span class="line"><span class="attr">url:</span> <span class="string">https://PressurePoints.github.io</span> <span class="comment"># 你的博客地址</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="安装部署插件"><a href="#安装部署插件" class="headerlink" title="安装部署插件"></a>安装部署插件</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+<p>如果不进行上述操作，直接使用 hexo d 部署到 GitHub，将会报错。</p>
+<blockquote>
+<p>此命令是在输入命令的路径下安装插件，所以要在博客目录下执行</p>
+</blockquote>
+<h4 id="部署到-GitHub"><a href="#部署到-GitHub" class="headerlink" title="部署到 GitHub"></a>部署到 GitHub</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo deploy <span class="comment"># 或者 hexo d</span></span><br></pre></td></tr></table></figure>
+<p>若输出如下内容，表明部署成功：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">INFO  Validating config</span><br><span class="line">INFO  Deploying: git</span><br><span class="line">INFO  Clearing .deploy_git folder...</span><br><span class="line">INFO  Copying files from public folder...</span><br><span class="line">INFO  Copying files from extend <span class="built_in">dirs</span>...</span><br><span class="line">On branch master</span><br><span class="line">nothing to commit, working tree clean</span><br><span class="line">Everything up-to-date</span><br><span class="line">branch <span class="string">&#x27;master&#x27;</span> <span class="built_in">set</span> up to track <span class="string">&#x27;git@github.com:PressurePoints/PressurePoints.github.io.git/master&#x27;</span>.</span><br><span class="line">INFO  Deploy <span class="keyword">done</span>: git</span><br></pre></td></tr></table></figure>
+<p>之后打开 GitHub 这个仓库会发现博客目录下文件被同步到 GitHub 仓库中了，之后打开仓库设置界面，打开 Page 模块，Branch 改成 Master 并保存，<br>接着打开 [<a href="https://yourusername.github.io/]https://pressurepoints.github.io/">https://YourUserName.github.io/]https://pressurepoints.github.io/</a> 就能访问了。</p>
+<blockquote>
+<p>如果访问出现404，可以参考<a href="https://singleplus.gitee.io/blog/2020/06/22/Gitee-Hexo%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E4%B8%AD%E7%9A%84%E5%9D%91/">这里</a></p>
+</blockquote>
+<h2 id="使用-NexT-主题"><a href="#使用-NexT-主题" class="headerlink" title="使用 NexT 主题"></a>使用 NexT 主题</h2><h3 id="更改主题"><a href="#更改主题" class="headerlink" title="更改主题"></a>更改主题</h3><p>在博客目录下输入如下命令来安装 NexT 主题：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/theme-next/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
+<p>然后打开站点配置文件 _config.yml，将 theme 部分改为 next：</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Extensions</span></span><br><span class="line"><span class="comment">## Plugins: https://hexo.io/plugins/</span></span><br><span class="line"><span class="comment">## Themes: https://hexo.io/themes/</span></span><br><span class="line"><span class="attr">theme:</span> <span class="string">next</span></span><br></pre></td></tr></table></figure>
+<p>这样就修改了主题。</p>
+<h3 id="配置-NexT-主题"><a href="#配置-NexT-主题" class="headerlink" title="配置 NexT 主题"></a>配置 NexT 主题</h3><p>在博客目录下打开 themes&#x2F;next 文件夹，找到 _config.yml 文件，打开后可以看到很多配置项，这些配置项都是用来配置 NexT 主题的，可以根据自己的需求来修改。</p>
+<p>这里贴一个 NexT 主题的<a href="https://theme-next.js.org/docs/theme-settings/">官方文档</a>，你可以根据自己的需求来修改。（实际上这里也有如何安装 NexT 的教程，虽然都是英文。）</p>
 ]]></content>
       <categories>
-        <category>Test</category>
+        <category>博客</category>
       </categories>
       <tags>
-        <tag>test</tag>
+        <tag>博客</tag>
+        <tag>NexT</tag>
+        <tag>Hexo</tag>
+        <tag>GitHub Pages</tag>
       </tags>
   </entry>
 </search>
